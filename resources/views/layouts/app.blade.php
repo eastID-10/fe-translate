@@ -169,7 +169,21 @@
                     : 'text-gray-500 hover:text-gray-800 hover:bg:gold-light' }}">
                     Terjemah
                 </a>
-                <a href="{{ route('about') }}"
+                <a href="#about"
+                    class="font-bold text-sm px-4 py-2 rounded-lg transition-all
+                {{ request()->routeIs('about')
+                    ? 'border-b-2 border-[#D4A800]  text-gray-900 shadow-[0_2px_5px_rgba(245,200,66,0.4)]'
+                    : 'text-gray-500 hover:text-gray-800 hover:bg:gold-light' }}">
+                    Profil
+                </a>
+                <a href="#foundation"
+                    class="font-bold text-sm px-4 py-2 rounded-lg transition-all
+                {{ request()->routeIs('about')
+                    ? 'border-b-2 border-[#D4A800]  text-gray-900 shadow-[0_2px_5px_rgba(245,200,66,0.4)]'
+                    : 'text-gray-500 hover:text-gray-800 hover:bg:gold-light' }}">
+                    Profil
+                </a>
+                <a href="#history"
                     class="font-bold text-sm px-4 py-2 rounded-lg transition-all
                 {{ request()->routeIs('about')
                     ? 'border-b-2 border-[#D4A800]  text-gray-900 shadow-[0_2px_5px_rgba(245,200,66,0.4)]'
