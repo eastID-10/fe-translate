@@ -10,7 +10,7 @@
     ke dalam Bahasa Indramayu
   </h1>
   <p class="text-gray-500 font-semibold text-[0.95rem]">
-    Didukung model machine translation fine-tuned khusus dialek Indramayu
+    Aplikasi penerjemah bahasa indonesia ke bahasa indramayu, ditujukan untuk melestarikan bahasa daerah sekaligus memudahkan komunikasi lintas bahasa.
   </p>
 </div>
 
@@ -19,31 +19,7 @@
      class="slide-up bg-white rounded-2xl border border-gray-200
             shadow-[0_16px_56px_rgba(0,0,0,0.09)] p-6 md:p-8">
 
-  {{-- Lang badges --}}
-  <div class="flex items-center gap-3 mb-5">
-    <span id="badge1"
-          class="font-extrabold text-[0.82rem] px-4 py-1.5 rounded-full
-                 bg-gold text-gray-900 shadow-[0_2px_8px_rgba(245,200,66,0.4)]">
-      🇮🇩 Indonesia
-    </span>
-
-    <button id="swapBtn" title="Tukar bahasa"
-            class="swap-btn w-9 h-9 flex items-center justify-center rounded-full
-                   border border-gray-300 bg-cream text-gray-500
-                   hover:bg-gold-light hover:border-gold-dark hover:text-gray-800
-                   transition-all cursor-pointer">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M8 3L4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/>
-      </svg>
-    </button>
-
-    <span id="badge2"
-          class="font-extrabold text-[0.82rem] px-4 py-1.5 rounded-full
-                 bg-gold-light text-gray-600 border border-gray-200">
-      🏡 Indramayu
-    </span>
-  </div>
+  
 
   {{-- Two panels + center button --}}
   <div class="grid grid-cols-1 md:grid-cols-[1fr_72px_1fr] gap-4 items-start">
@@ -52,7 +28,7 @@
     <div class="panel rounded-xl border border-gray-200 overflow-hidden bg-[#FDFCF9] transition-all">
       <div class="flex justify-between items-center px-4 py-2.5 bg-gray-50 border-b border-gray-200">
         <span id="inputLabel"
-              class="text-[0.73rem] font-bold text-gray-400 uppercase tracking-widest">
+              class="text-[0.73rem] font-bold text-gray-700 uppercase tracking-widest">
           Kalimat Indonesia
         </span>
         <span id="charCount" class="text-[0.73rem] font-semibold text-gray-400">0 / 500</span>
@@ -80,29 +56,15 @@
     </div>
 
     {{-- CENTER: Translate button --}}
-    <div class="flex items-center justify-center md:pt-[116px]">
-      <button id="translateBtn"
-              class="flex flex-row md:flex-col items-center justify-center gap-2
-                     bg-gold text-gray-900 font-extrabold text-[0.82rem] tracking-wide
-                     w-full md:w-auto px-5 md:px-3.5 py-3 md:py-4
-                     rounded-full shadow-[0_4px_18px_rgba(245,200,66,0.4)]
-                     hover:bg-gold-dark hover:scale-105 active:scale-95
-                     disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200">
-        <span id="btnLabel">Terjemahkan</span>
-        <svg id="btnSpinner" class="spin hidden" width="17" height="17"
-             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
-                   M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-        </svg>
-      </button>
+    <div class="flex items-center justify-center md:pt-[116px] z-10">
+    
     </div>
 
     {{-- OUTPUT --}}
     <div class="panel rounded-xl border border-gray-200 overflow-hidden bg-[#FDFCF9] transition-all">
       <div class="flex justify-between items-center px-4 py-2.5 bg-gray-50 border-b border-gray-200">
         <span id="outputLabel"
-              class="text-[0.73rem] font-bold text-gray-400 uppercase tracking-widest">
+              class="text-[0.73rem] font-bold text-gray-700 uppercase tracking-widest">
           Kalimat Indramayu
         </span>
         <span id="statusDot" class="w-2 h-2 rounded-full transition-all duration-300"></span>
@@ -119,12 +81,17 @@
                        text-gray-400 hover:bg-gold-light hover:text-gray-700 transition">
           @include('components.icon-copy')
         </button>
+        <button id="clearBtn" title="Hapus"
+                class="w-8 h-8 flex items-center justify-center rounded-lg
+                       text-gray-400 hover:bg-gold-light hover:text-gray-700 transition">
+          @include('components.icon-x')
+        </button>
         {{-- TTS --}}
-        <button id="speakBtn" title="Dengarkan"
+        {{-- <button id="speakBtn" title="Dengarkan"
                 class="w-8 h-8 flex items-center justify-center rounded-lg
                        text-gray-400 hover:bg-gold-light hover:text-gray-700 transition">
           @include('components.icon-speaker')
-        </button>
+        </button> --}}
       </div>
     </div>
 
@@ -133,7 +100,7 @@
   {{-- Example chips --}}
   <div class="flex flex-wrap items-center gap-3 mt-6 pt-5 border-t border-gray-200">
     <span class="text-[0.73rem] font-bold text-gray-400 uppercase tracking-widest shrink-0">
-      Coba contoh:
+      Contoh kalimat:
     </span>
     <div class="flex flex-wrap gap-2">
       @foreach([
@@ -165,20 +132,20 @@ const API_BASE = @json($apiBase);
 // ── DOM refs ──────────────────────────────────────────────────
 const inputText     = document.getElementById('inputText');
 const outputText    = document.getElementById('outputText');
-const translateBtn  = document.getElementById('translateBtn');
+// const translateBtn  = document.getElementById('translateBtn');
 const btnLabel      = document.getElementById('btnLabel');
 const btnSpinner    = document.getElementById('btnSpinner');
 const clearBtn      = document.getElementById('clearBtn');
 const copyInputBtn  = document.getElementById('copyInputBtn');
 const copyOutputBtn = document.getElementById('copyOutputBtn');
-const speakBtn      = document.getElementById('speakBtn');
-const swapBtn       = document.getElementById('swapBtn');
+// const speakBtn      = document.getElementById('speakBtn');
+// const swapBtn       = document.getElementById('swapBtn');
 const charCount     = document.getElementById('charCount');
 const statusDot     = document.getElementById('statusDot');
 const inputLabel    = document.getElementById('inputLabel');
 const outputLabel   = document.getElementById('outputLabel');
-const badge1        = document.getElementById('badge1');
-const badge2        = document.getElementById('badge2');
+// const badge1        = document.getElementById('badge1');
+// const badge2        = document.getElementById('badge2');
 const toast         = document.getElementById('toast');
 
 // ── State ─────────────────────────────────────────────────────
@@ -227,19 +194,19 @@ inputText.addEventListener('input', () => {
 });
 
 // ── Translate ─────────────────────────────────────────────────
-translateBtn.addEventListener('click', doTranslate);
-inputText.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) doTranslate();
-});
+// translateBtn.addEventListener('click', doTranslate);
+// inputText.addEventListener('keydown', e => {
+//   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) doTranslate();
+// });
 
 async function doTranslate() {
   const text = inputText.value.trim();
   if (!text) return;
 
   // Loading state
-  translateBtn.disabled = true;
-  btnLabel.classList.add('hidden');
-  btnSpinner.classList.remove('hidden');
+  // translateBtn.disabled = true;
+  // btnLabel.classList.add('hidden');
+  // btnSpinner.classList.remove('hidden');
   outputText.innerHTML = '';
   outputText.classList.add('loading-dots');
   setStatus(null);
@@ -267,9 +234,9 @@ async function doTranslate() {
     setStatus('error');
     showToast('❌ ' + err.message);
   } finally {
-    translateBtn.disabled = false;
-    btnLabel.classList.remove('hidden');
-    btnSpinner.classList.add('hidden');
+    // translateBtn.disabled = false;
+    // btnLabel.classList.remove('hidden');
+    // btnSpinner.classList.add('hidden');
     outputText.classList.remove('loading-dots');
   }
 }
@@ -297,42 +264,42 @@ copyOutputBtn.addEventListener('click', () => {
 });
 
 // ── TTS ───────────────────────────────────────────────────────
-speakBtn.addEventListener('click', () => {
-  const t = outputText.innerText.trim();
-  if (!t || t === PLACEHOLDER) return;
-  if (!('speechSynthesis' in window)) { showToast('❌ TTS tidak didukung'); return; }
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(t);
-  u.lang = 'id-ID'; u.rate = 0.9;
-  window.speechSynthesis.speak(u);
-  showToast('🔊 Memutar…');
-});
+// speakBtn.addEventListener('click', () => {
+//   const t = outputText.innerText.trim();
+//   if (!t || t === PLACEHOLDER) return;
+//   if (!('speechSynthesis' in window)) { showToast('❌ TTS tidak didukung'); return; }
+//   window.speechSynthesis.cancel();
+//   const u = new SpeechSynthesisUtterance(t);
+//   u.lang = 'id-ID'; u.rate = 0.9;
+//   window.speechSynthesis.speak(u);
+//   showToast('🔊 Memutar…');
+// });
 
 // ── Swap ──────────────────────────────────────────────────────
-swapBtn.addEventListener('click', () => {
-  isSwapped = !isSwapped;
+// swapBtn.addEventListener('click', () => {
+//   isSwapped = !isSwapped;
 
-  const prevOut = outputText.innerText.trim() === PLACEHOLDER ? '' : outputText.innerText.trim();
-  const prevIn  = inputText.value;
-  inputText.value = prevOut;
-  charCount.textContent = `${inputText.value.length} / 500`;
+//   const prevOut = outputText.innerText.trim() === PLACEHOLDER ? '' : outputText.innerText.trim();
+//   const prevIn  = inputText.value;
+//   inputText.value = prevOut;
+//   charCount.textContent = `${inputText.value.length} / 500`;
 
-  if (isSwapped) {
-    inputLabel.textContent  = 'Kalimat Indramayu';
-    outputLabel.textContent = 'Kalimat Indonesia';
-    badge1.textContent = '🏡 Indramayu';
-    badge2.textContent = '🇮🇩 Indonesia';
-  } else {
-    inputLabel.textContent  = 'Kalimat Indonesia';
-    outputLabel.textContent = 'Kalimat Indramayu';
-    badge1.textContent = '🇮🇩 Indonesia';
-    badge2.textContent = '🏡 Indramayu';
-  }
+//   if (isSwapped) {
+//     inputLabel.textContent  = 'Kalimat Indramayu';
+//     outputLabel.textContent = 'Kalimat Indonesia';
+//     badge1.textContent = '🏡 Indramayu';
+//     badge2.textContent = '🇮🇩 Indonesia';
+//   } else {
+//     inputLabel.textContent  = 'Kalimat Indonesia';
+//     outputLabel.textContent = 'Kalimat Indramayu';
+//     badge1.textContent = '🇮🇩 Indonesia';
+//     badge2.textContent = '🏡 Indramayu';
+//   }
 
-  prevIn ? setOutput(prevIn) : clearOutputToPlaceholder();
-  setStatus(null);
-  if (inputText.value.trim()) doTranslate();
-});
+//   prevIn ? setOutput(prevIn) : clearOutputToPlaceholder();
+//   setStatus(null);
+//   if (inputText.value.trim()) doTranslate();
+// });
 
 // ── Example chips ─────────────────────────────────────────────
 document.querySelectorAll('.example-chip').forEach(chip => {

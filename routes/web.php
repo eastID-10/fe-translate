@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 // });
 // Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/', fn() => redirect()->route('utama'));
-Route::get('/utama',   [HomeController::class, 'home'])->name('home');
-Route::get('/tentang', [HomeController::class, 'about'])->name('about');
+Route::get('/', fn() => redirect()->route('home'));
+Route::get('/home',   [HomeController::class, 'home'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
  
